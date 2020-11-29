@@ -14,9 +14,8 @@ func cdata(content: string): string =
 
 const styleSheet = readFile("src/style.css")
 
-withDir "temp":
-    exec "nim js -r ../src/script.nim --outdir temp"
-
+# Generate the javascript.
+exec "nim js -r ../src/script.nim --outdir temp"
 const javascript = readFile("src/script.js")
 
 const xmlEncoding = """<?xml version="1.0" encoding="UTF-8"?>"""
@@ -29,18 +28,14 @@ let document = htmlgen.html(
     bskin(cdata(styleSheet))
   ),
   htmlgen.body(
-
     htmlgen.h1(htmlgen.a(href = "https://baremetal.dev", "baremetal.dev")),
-    htmlgen.script(javascript),
+    htmlgen.script(cdata(javascript)),
     bsection(id = "1") # required for blogger
   )
 )
 
 let htmlDocument = xmlEncoding & doctypeString & document
 
-# var htmlFile = open("index.html", fmWrite)
-# htmlFile.write(htmlDocument)
-# htmlFile.close()
 writeFile("index.html", htmlDocument)
 
-echo htmlDocument
+# echo htmlDocument
