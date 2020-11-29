@@ -1,28 +1,37 @@
 from htmlgen import nil
 
-const styleSheet = ""
+macro bsection(e: varargs[untyped]): untyped =
+  ## Generates the blogger html ``b:section`` element.
+  result = htmlgen.xmlCheckedTag(e, "b:section", htmlgen.commonAttr)
+
+macro bskin(e: varargs[untyped]): untyped =
+  ## Generates the blogger html ``b:skin`` element.
+  result = htmlgen.xmlCheckedTag(e, "b:skin", htmlgen.commonAttr)
+
+func cdata(content: string): string =
+  ## Encloses content in ``CDATA`` html element.
+  result = """<![CDATA[""" & content & """]]>"""
+
+var styleFile = open("src/style.css", fmRead)
+
+let styleSheet = styleFile.readAll()
 
 const javascript = ""
 
 const xmlEncoding = """<?xml version="1.0" encoding="UTF-8"?>"""
 const doctypeString = """<!DOCTYPE html>"""
 
-# Blogger extra requirements
-# TODO proper htmlgen.xmlEncoding() version of this
-const skinOpen = """<b:skin><![CDATA["""
-const skinClose = """]]></b:skin>"""
-const bloggerStyle = skinOpen & styleSheet & skinClose
-const bloggerSection = """<b:section id="1"></b:section>"""
-
 let document = htmlgen.html(
   htmlgen.head(
-    # TODO header
-    bloggerStyle
+    htmlgen.title("baremetal.dev"),
+    htmlgen.meta(charset = "utf-8"),   # TODO description etc
+    bskin(cdata(styleSheet))
   ),
   htmlgen.body(
-    htmlgen.h1(htmlgen.a(href="https://baremetal.dev", "baremetal.dev")),
+
+    htmlgen.h1(htmlgen.a(href = "https://baremetal.dev", "baremetal.dev")),
     htmlgen.script(javascript),
-    bloggerSection
+    bsection(id = "1") # required for blogger
   )
 )
 
@@ -32,4 +41,4 @@ var htmlFile = open("index.html", fmWrite)
 htmlFile.write(htmlDocument)
 htmlFile.close()
 
-# echo htmlDocument
+echo htmlDocument
