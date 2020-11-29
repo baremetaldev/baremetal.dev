@@ -12,39 +12,35 @@ func cdata(content: string): string =
   ## Encloses content in ``CDATA`` html element.
   result = """<![CDATA[""" & content & """]]>"""
 
-# var styleFile = open("src/style.css", fmRead)
-
-# let styleSheet = styleFile.readAll()
 const styleSheet = readFile("src/style.css")
 
 withDir "temp":
     exec "nim js -r ../src/script.nim --outdir temp"
 
-# const javascript = ""
-const javascript = readFile()
+const javascript = readFile("src/script.js")
 
-# const xmlEncoding = """<?xml version="1.0" encoding="UTF-8"?>"""
-# const doctypeString = """<!DOCTYPE html>"""
+const xmlEncoding = """<?xml version="1.0" encoding="UTF-8"?>"""
+const doctypeString = """<!DOCTYPE html>"""
 
-# let document = htmlgen.html(
-#   htmlgen.head(
-#     htmlgen.title("baremetal.dev"),
-#     htmlgen.meta(charset = "utf-8"),   # TODO description etc
-#     bskin(cdata(styleSheet))
-#   ),
-#   htmlgen.body(
+let document = htmlgen.html(
+  htmlgen.head(
+    htmlgen.title("baremetal.dev"),
+    htmlgen.meta(charset = "utf-8"),   # TODO description etc
+    bskin(cdata(styleSheet))
+  ),
+  htmlgen.body(
 
-#     htmlgen.h1(htmlgen.a(href = "https://baremetal.dev", "baremetal.dev")),
-#     htmlgen.script(javascript),
-#     bsection(id = "1") # required for blogger
-#   )
-# )
+    htmlgen.h1(htmlgen.a(href = "https://baremetal.dev", "baremetal.dev")),
+    htmlgen.script(javascript),
+    bsection(id = "1") # required for blogger
+  )
+)
 
-# let htmlDocument = xmlEncoding & doctypeString & document
+let htmlDocument = xmlEncoding & doctypeString & document
 
 # var htmlFile = open("index.html", fmWrite)
 # htmlFile.write(htmlDocument)
 # htmlFile.close()
+writeFile("index.html", htmlDocument)
 
-# echo htmlDocument
-
+echo htmlDocument
