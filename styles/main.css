@@ -5,13 +5,14 @@ body {
     margin: 0;
     /* height: 200vh; */
 
-    font-family: 'Oxanium', cursive;
-    background-color: #4e598c;
+    /* font-family: 'Oxanium', cursive; */
+    /* background-color: #4e598c; */
+    background-color: black; 
 }
 
 .main_text {
     color: white;
-    filter: drop-shadow(1px 1px 2px black);
+    /* filter: drop-shadow(1px 1px 2px black); */
 }
 
 .center {
