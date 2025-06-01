@@ -1,18 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@300&display=swap');
-
 body {
     top: 0;
     margin: 0;
-    /* height: 200vh; */
-
-    /* font-family: 'Oxanium', cursive; */
-    /* background-color: #4e598c; */
     background-color: black; 
 }
 
 .main_text {
     color: white;
-    /* filter: drop-shadow(1px 1px 2px black); */
 }
 
 .center {
